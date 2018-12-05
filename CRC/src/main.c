@@ -1,8 +1,8 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "config.h"
-#include "autosar_crc.h"
-#include "CRC_test.h"
+#include "CRC/Autosar/autosar_crc.h"
+#include "CRC/CRC_test.h"
 
 
 #define DEBUG_ALGORITHM	0
