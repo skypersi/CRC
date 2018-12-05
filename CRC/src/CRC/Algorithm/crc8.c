@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "config.h"
+#include "crc8.h"
 
 //This source code is helper for implementing CRC by AutoSar documentation: Specification of CRC Routines.
 // https://www.autosar.org/fileadmin/files/standards/classic/
@@ -8,8 +9,6 @@
 // Good page for checking your CRC:
 // http://www.sunshine2k.de/coding/javascript/crc/crc_js.html
 
-
-extern uint32_t reflect(uint32_t data, uint8_t nBits);
 
 void Crc8TableGenerator(uint8_t polynomial, uint8_t crcTable[256])
 {
@@ -47,7 +46,13 @@ void Crc8TableGenerator(uint8_t polynomial, uint8_t crcTable[256])
     }
 }
 
-uint8_t CalculateCRC8(const uint8_t crcTable[256], const uint8_t *crc_DataPtr, uint32_t crc_Length, uint8_t crc_InitialValue, uint8_t crc_XorValue, bool_t reflectedOutput, bool_t reflectedInput)
+uint8_t CalculateCRC8(const uint8_t crcTable[256],
+					  const uint8_t  *crc_DataPtr,
+					  uint32_t crc_Length,
+					  uint8_t crc_InitialValue,
+					  uint8_t crc_XorValue,
+					  bool_t reflectedOutput,
+					  bool_t reflectedInput)
 {
     uint32_t ui32Counter;
     uint8_t temp;

@@ -1,11 +1,11 @@
 #include <stdint.h>
 #include "config.h"
+#include "reflect.h"
 
 
 uint32_t reflect(uint32_t data, uint8_t nBits)
 {
     uint32_t  reflection = 0;
-
 
     /*
     * Reflect the data about the center bit.

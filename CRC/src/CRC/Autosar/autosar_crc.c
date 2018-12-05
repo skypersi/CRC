@@ -8,15 +8,10 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "config.h"
+#include "../Algorithm/crc8.h"
+#include "../Algorithm/crc16.h"
+#include "../Algorithm/crc32.h"
 #include "autosar_crc.h"
-
-extern uint8_t  CalculateCRC8(uint8_t crcTable[256],   const uint8_t *crc_DataPtr, uint32_t crc_Length, uint8_t crc_InitialValue,  uint8_t crc_XorValue,  bool_t reflectedOutput, bool_t reflectedInput);
-//extern uint16_t CalculateCRC16(uint16_t crcTable[256], const uint8_t *crc_DataPtr, uint32_t crc_Length, uint16_t crc_InitialValue, uint16_t crc_XorValue, bool_t reflectedOutput, bool_t reflectedInput);
-//extern uint32_t CalculateCRC32(uint32_t crcTable[256], const uint8_t *crc_DataPtr, uint32_t crc_Length, uint32_t crc_InitialValue, uint32_t crc_XorValue, bool_t reflectedOutput, bool_t reflectedInput);
-
-//extern void Crc8TableGenerator(uint8_t polynomial,   uint8_t crcTable[256]);
-//extern void Crc16TableGenerator(uint16_t polynomial, uint16_t crcTable[256]);
-//extern void Crc32TableGenerator(uint32_t polynomial, uint32_t crcTable[256]);
 
 const uint8_t crcTable8bit[256] =
 {
@@ -37,8 +32,8 @@ const uint8_t crcTable8bit[256] =
   0x76U, 0x59U, 0x28U, 0x07U, 0xcaU, 0xe5U, 0x94U, 0xbbU, 0x21U, 0x0eU, 0x7fU, 0x50U, 0x9dU, 0xb2U, 0xc3U, 0xecU,
   0xd8U, 0xf7U, 0x86U, 0xa9U, 0x64U, 0x4bU, 0x3aU, 0x15U, 0x8fU, 0xa0U, 0xd1U, 0xfeU, 0x33U, 0x1cU, 0x6dU, 0x42U
 };
-//uint16_t crcTable16bit[256] = {0};
-//uint32_t crcTable32bit[256] = {0};
+//const uint16_t crcTable16bit[256] = {0};
+//const uint32_t crcTable32bit[256] = {0};
 
 /* Calculate CRC Table manually
 void Autosar_Crc_CalculateCRC8H2F_TableGenerator()
@@ -46,7 +41,7 @@ void Autosar_Crc_CalculateCRC8H2F_TableGenerator()
   Crc8TableGenerator(0x2F, &crcTable8bit[0]);
 }*/
 
-uint8_t Autosar_Crc_CalculateCRC8H2F(const uint8_t *crc_DataPtr, uint32_t crc_Length)
+uint8_t Autosar_Crc_CalculateCRC8H2F(const uint8_t *crc_DataPtr, const uint32_t crc_Length)
 {
   return CalculateCRC8(&crcTable8bit[0], crc_DataPtr, crc_Length, 0xFF, 0xFF, FALSE, FALSE);
 }

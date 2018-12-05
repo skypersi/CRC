@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "config.h"
+#include "crc16.h"
 
 //This source code is helper for implementing CRC by AutoSar documentation: Specification of CRC Routines.
 // https://www.autosar.org/fileadmin/files/standards/classic/
@@ -8,8 +9,6 @@
 // Good page for checking your CRC:
 // http://www.sunshine2k.de/coding/javascript/crc/crc_js.html
 
-
-extern uint32_t reflect(uint32_t data, uint8_t nBits);
 
 void Crc16TableGenerator(uint16_t polynomial, uint16_t crcTable[256])
 {
@@ -49,7 +48,13 @@ void Crc16TableGenerator(uint16_t polynomial, uint16_t crcTable[256])
     }
 }
 
-uint16_t CalculateCRC16(uint16_t crcTable[256], const uint8_t *crc_DataPtr, uint32_t crc_Length, uint16_t crc_InitialValue, uint16_t crc_XorValue, bool_t reflectedOutput, bool_t reflectedInput)
+uint16_t CalculateCRC16(const uint16_t crcTable[256],
+					    const uint8_t *crc_DataPtr,
+						uint32_t crc_Length,
+						uint16_t crc_InitialValue,
+						uint16_t crc_XorValue,
+						bool_t reflectedOutput,
+						bool_t reflectedInput)
 {
     uint32_t ui32Counter;
     uint8_t temp;
@@ -59,7 +64,7 @@ uint16_t CalculateCRC16(uint16_t crcTable[256], const uint8_t *crc_DataPtr, uint
     {
         if (reflectedInput)
         {
-            temp = (uint16_t)reflect(*crc_DataPtr, 8);
+            temp = (uint8_t)reflect(*crc_DataPtr, 8);
         }
         else
         {
