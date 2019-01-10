@@ -1,12 +1,15 @@
-#include <stdint.h>
-#include <stdio.h>
-#include "config.h"
+
+#include "Config.h"
+#include "CRC/Algorithm/crc8.h"
+#include "CRC/Algorithm/crc16.h"
+#include "CRC/Algorithm/crc32.h"
 #include "CRC/Autosar/autosar_crc.h"
+
 #include "CRC/CRC_test.h"
 
 
-#define DEBUG_ALGORITHM	0
-#define DEBUG_AUTOSAR   1
+#define  DEBUG_ALGORITHM	0
+#define  DEBUG_AUTOSAR    1
 
 #if(DEBUG_ALGORITHM)
 extern uint8_t  CalculateCRC8(uint8_t crcTable[256],   const uint8_t *crc_DataPtr, uint32_t crc_Length, uint8_t crc_InitialValue,  uint8_t crc_XorValue,  bool_t reflectedOutput, bool_t reflectedInput);

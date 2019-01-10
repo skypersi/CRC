@@ -1,12 +1,13 @@
 /*
  * CRC_test.c
  *
- *  Created on: 2018Äê11ÔÂ23ÈÕ
- *      Author: lqf
+ *  Created on: 2018.11.23
+ *      Author: liqingfei
  */
-#include <stdint.h>
-#include <stdio.h>
-#include "config.h"
+
+#include "Config.h"
+#include "Sources_Test/CRC/CRC_test.h"
+
 
 void TestCRC8(uint8_t calculatedCrc, uint8_t expectedCrc)
 {
