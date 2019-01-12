@@ -11,15 +11,6 @@
 #define  DEBUG_ALGORITHM	0
 #define  DEBUG_AUTOSAR    1
 
-#if(DEBUG_ALGORITHM)
-extern uint8_t  CalculateCRC8(uint8_t crcTable[256],   const uint8_t *crc_DataPtr, uint32_t crc_Length, uint8_t crc_InitialValue,  uint8_t crc_XorValue,  bool_t reflectedOutput, bool_t reflectedInput);
-extern uint16_t CalculateCRC16(uint16_t crcTable[256], const uint8_t *crc_DataPtr, uint32_t crc_Length, uint16_t crc_InitialValue, uint16_t crc_XorValue, bool_t reflectedOutput, bool_t reflectedInput);
-extern uint32_t CalculateCRC32(uint32_t crcTable[256], const uint8_t *crc_DataPtr, uint32_t crc_Length, uint32_t crc_InitialValue, uint32_t crc_XorValue, bool_t reflectedOutput, bool_t reflectedInput);
-
-extern void Crc8TableGenerator(uint8_t polynomial,   uint8_t crcTable[256]);
-extern void Crc16TableGenerator(uint16_t polynomial, uint16_t crcTable[256]);
-extern void Crc32TableGenerator(uint32_t polynomial, uint32_t crcTable[256]);
-#endif
 
 int main()
 {
@@ -116,6 +107,10 @@ int main()
     TestCRC8(Autosar_Crc_CalculateCRC8H2F(message5, sizeof(message5)), 0x11);
     TestCRC8(Autosar_Crc_CalculateCRC8H2F(message6, sizeof(message6)), 0x33);
     TestCRC8(Autosar_Crc_CalculateCRC8H2F(message7, sizeof(message7)), 0x6C);
+
+    uint8_t data[] = { 0x00, 0x10 };
+
+    TestCRC8(Autosar_Crc_CalculateCRC8H2F(data, sizeof(data)), 0xE9);
 
 #endif /*DEBUG_AUTOSAR*/
 
