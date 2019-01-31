@@ -8,7 +8,7 @@
 #ifndef _CRC32_H_
 #define _CRC32_H_
 
-#include "Config.h"
+#include <Config.h>
 
 void
 Crc32TableGenerator (uint32_t polynomial, uint32_t crcTable[256]);

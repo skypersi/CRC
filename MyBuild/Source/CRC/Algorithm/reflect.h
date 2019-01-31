@@ -8,7 +8,7 @@
 #ifndef _REFLECT_H_
 #define _REFLECT_H_
 
-#include "Config.h"
+#include <Config.h>
 
 uint32_t
 reflect (uint32_t data, uint8_t nBits);

@@ -1,7 +1,7 @@
 
-#include "Config.h"
-#include "CRC/Algorithm/crc8.h"
-#include "CRC/Algorithm/reflect.h"
+#include <Config.h>
+#include "crc16.h"
+#include "reflect.h"
 
 //This source code is helper for implementing CRC by AutoSar documentation: Specification of CRC Routines.
 // https://www.autosar.org/fileadmin/files/standards/classic/
@@ -10,16 +10,16 @@
 // http://www.sunshine2k.de/coding/javascript/crc/crc_js.html
 
 void
-Crc8TableGenerator (uint8_t polynomial, uint8_t crcTable[256])
+Crc16TableGenerator (uint16_t polynomial, uint16_t crcTable[256])
 {
-  uint8_t remainder;
+  uint16_t remainder;
 
-  uint8_t topBit = 0x80;
+  uint16_t topBit = 0x8000;
   uint32_t ui32Dividend;
 
   for (ui32Dividend = 0; ui32Dividend < 256; ui32Dividend++)
     {
-      remainder = ui32Dividend;
+      remainder = ui32Dividend << 8;
 
       for (uint8_t bit = 0; bit < 8; bit++)
         {
@@ -41,17 +41,19 @@ Crc8TableGenerator (uint8_t polynomial, uint8_t crcTable[256])
        {
        printf("\n");
        }
-       printf("0x%02xU, ", remainder);
+       printf("0x%04xU, ", remainder);
+
        */
+
     }
 }
 
-uint8_t
-CalculateCRC8 (const uint8_t crcTable[256], const uint8_t *crc_DataPtr, uint32_t crc_Length, uint8_t crc_InitialValue, uint8_t crc_XorValue, bool reflectedOutput, bool reflectedInput)
+uint16_t
+CalculateCRC16 (const uint16_t crcTable[256], const uint8_t *crc_DataPtr, uint32_t crc_Length, uint16_t crc_InitialValue, uint16_t crc_XorValue, bool reflectedOutput, bool reflectedInput)
 {
   uint32_t ui32Counter;
   uint8_t temp;
-  uint8_t crc = crc_InitialValue;
+  uint16_t crc = crc_InitialValue;
 
   for (ui32Counter = 0U; ui32Counter < crc_Length; ui32Counter++)
     {
@@ -64,15 +66,15 @@ CalculateCRC8 (const uint8_t crcTable[256], const uint8_t *crc_DataPtr, uint32_t
           temp = *crc_DataPtr;
         }
 
-      crc = crc ^ temp;
-      crc = crcTable[crc];
+      crc = (crc << 8) ^ crcTable[(uint8_t) ((crc >> 8) ^ temp)];
       crc_DataPtr++;
+
     }
 
   crc ^= crc_XorValue;
   if (reflectedOutput)
     {
-      crc = (uint8_t) reflect (crc, 8);
+      crc = (uint16_t) reflect (crc, 16);
     }
   return crc;
 }

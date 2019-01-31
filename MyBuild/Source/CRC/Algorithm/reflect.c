@@ -1,6 +1,6 @@
 
-#include "Config.h"
-#include "CRC/Algorithm/reflect.h"
+#include <Config.h>
+#include "reflect.h"
 
 uint32_t
 reflect (uint32_t data, uint8_t nBits)

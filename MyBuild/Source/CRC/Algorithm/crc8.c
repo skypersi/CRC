@@ -1,7 +1,7 @@
 
-#include "Config.h"
-#include "CRC/Algorithm/crc32.h"
-#include "CRC/Algorithm/reflect.h"
+#include <Config.h>
+#include "crc8.h"
+#include "reflect.h"
 
 //This source code is helper for implementing CRC by AutoSar documentation: Specification of CRC Routines.
 // https://www.autosar.org/fileadmin/files/standards/classic/
@@ -10,16 +10,16 @@
 // http://www.sunshine2k.de/coding/javascript/crc/crc_js.html
 
 void
-Crc32TableGenerator (uint32_t polynomial, uint32_t crcTable[256])
+Crc8TableGenerator (uint8_t polynomial, uint8_t crcTable[256])
 {
-  uint32_t remainder;
+  uint8_t remainder;
 
-  uint32_t topBit = 0x80000000;
+  uint8_t topBit = 0x80;
   uint32_t ui32Dividend;
 
   for (ui32Dividend = 0; ui32Dividend < 256; ui32Dividend++)
     {
-      remainder = ui32Dividend << 24;
+      remainder = ui32Dividend;
 
       for (uint8_t bit = 0; bit < 8; bit++)
         {
@@ -41,19 +41,17 @@ Crc32TableGenerator (uint32_t polynomial, uint32_t crcTable[256])
        {
        printf("\n");
        }
-       printf("0x%08xU, ", remainder);
-
+       printf("0x%02xU, ", remainder);
        */
-
     }
 }
 
-uint32_t
-CalculateCRC32 (const uint32_t crcTable[256], const uint8_t *crc_DataPtr, uint32_t crc_Length, uint32_t crc_InitialValue, uint32_t crc_XorValue, bool reflectedOutput, bool reflectedInput)
+uint8_t
+CalculateCRC8 (const uint8_t crcTable[256], const uint8_t *crc_DataPtr, uint32_t crc_Length, uint8_t crc_InitialValue, uint8_t crc_XorValue, bool reflectedOutput, bool reflectedInput)
 {
   uint32_t ui32Counter;
   uint8_t temp;
-  uint32_t crc = crc_InitialValue;
+  uint8_t crc = crc_InitialValue;
 
   for (ui32Counter = 0U; ui32Counter < crc_Length; ui32Counter++)
     {
@@ -66,15 +64,15 @@ CalculateCRC32 (const uint32_t crcTable[256], const uint8_t *crc_DataPtr, uint32
           temp = *crc_DataPtr;
         }
 
-      crc = (crc << 8) ^ crcTable[(uint8_t) ((crc >> 24) ^ temp)];
+      crc = crc ^ temp;
+      crc = crcTable[crc];
       crc_DataPtr++;
-
     }
 
   crc ^= crc_XorValue;
   if (reflectedOutput)
     {
-      crc = reflect (crc, sizeof(uint32_t) * 8);
+      crc = (uint8_t) reflect (crc, 8);
     }
   return crc;
 }

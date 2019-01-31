@@ -5,13 +5,11 @@
  *      Author: lqf
  */
 
-#include "Config.h"
-
-#include "CRC/Algorithm/crc16.h"
-#include "CRC/Algorithm/crc32.h"
-#include "CRC/Algorithm/crc8.h"
-
-#include "CRC/Autosar/autosar_crc.h"
+#include <Config.h>
+#include <Source/CRC/Algorithm/crc16.h>
+#include <Source/CRC/Algorithm/crc32.h>
+#include <Source/CRC/Algorithm/crc8.h>
+#include <Autosar_CRC.h>
 
 uint8_t crcTable8bit[256] =
 {

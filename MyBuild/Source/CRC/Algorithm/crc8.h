@@ -8,7 +8,7 @@
 #ifndef _CRC8_H_
 #define _CRC8_H_
 
-#include "Config.h"
+#include <Config.h>
 
 void
 Crc8TableGenerator (uint8_t polynomial, uint8_t crcTable[256]);

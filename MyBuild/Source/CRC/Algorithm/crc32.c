@@ -1,7 +1,7 @@
 
-#include "Config.h"
-#include "CRC/Algorithm/crc16.h"
-#include "CRC/Algorithm/reflect.h"
+#include <Config.h>
+#include "crc32.h"
+#include "reflect.h"
 
 //This source code is helper for implementing CRC by AutoSar documentation: Specification of CRC Routines.
 // https://www.autosar.org/fileadmin/files/standards/classic/
@@ -10,16 +10,16 @@
 // http://www.sunshine2k.de/coding/javascript/crc/crc_js.html
 
 void
-Crc16TableGenerator (uint16_t polynomial, uint16_t crcTable[256])
+Crc32TableGenerator (uint32_t polynomial, uint32_t crcTable[256])
 {
-  uint16_t remainder;
+  uint32_t remainder;
 
-  uint16_t topBit = 0x8000;
+  uint32_t topBit = 0x80000000;
   uint32_t ui32Dividend;
 
   for (ui32Dividend = 0; ui32Dividend < 256; ui32Dividend++)
     {
-      remainder = ui32Dividend << 8;
+      remainder = ui32Dividend << 24;
 
       for (uint8_t bit = 0; bit < 8; bit++)
         {
@@ -41,19 +41,19 @@ Crc16TableGenerator (uint16_t polynomial, uint16_t crcTable[256])
        {
        printf("\n");
        }
-       printf("0x%04xU, ", remainder);
+       printf("0x%08xU, ", remainder);
 
        */
 
     }
 }
 
-uint16_t
-CalculateCRC16 (const uint16_t crcTable[256], const uint8_t *crc_DataPtr, uint32_t crc_Length, uint16_t crc_InitialValue, uint16_t crc_XorValue, bool reflectedOutput, bool reflectedInput)
+uint32_t
+CalculateCRC32 (const uint32_t crcTable[256], const uint8_t *crc_DataPtr, uint32_t crc_Length, uint32_t crc_InitialValue, uint32_t crc_XorValue, bool reflectedOutput, bool reflectedInput)
 {
   uint32_t ui32Counter;
   uint8_t temp;
-  uint16_t crc = crc_InitialValue;
+  uint32_t crc = crc_InitialValue;
 
   for (ui32Counter = 0U; ui32Counter < crc_Length; ui32Counter++)
     {
@@ -66,7 +66,7 @@ CalculateCRC16 (const uint16_t crcTable[256], const uint8_t *crc_DataPtr, uint32
           temp = *crc_DataPtr;
         }
 
-      crc = (crc << 8) ^ crcTable[(uint8_t) ((crc >> 8) ^ temp)];
+      crc = (crc << 8) ^ crcTable[(uint8_t) ((crc >> 24) ^ temp)];
       crc_DataPtr++;
 
     }
@@ -74,7 +74,7 @@ CalculateCRC16 (const uint16_t crcTable[256], const uint8_t *crc_DataPtr, uint32
   crc ^= crc_XorValue;
   if (reflectedOutput)
     {
-      crc = (uint16_t) reflect (crc, 16);
+      crc = reflect (crc, sizeof(uint32_t) * 8);
     }
   return crc;
 }

@@ -8,7 +8,7 @@
 #ifndef _CRC16_H_
 #define _CRC16_H_
 
-#include "Config.h"
+#include <Config.h>
 
 void
 Crc16TableGenerator (uint16_t polynomial, uint16_t crcTable[256]);
