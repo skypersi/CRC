@@ -18,7 +18,7 @@ void TestCRC8(uint8_t calculatedCrc, uint8_t expectedCrc)
   }
   else
   {
-      printf("CRC8 Ok, the result is 0x%02x \n", calculatedCrc);
+      printf("CRC8 OK, the result is 0x%02x \n", calculatedCrc);
   }
 }
 
@@ -31,7 +31,7 @@ void TestCRC16(uint16_t calculatedCrc, uint16_t expectedCrc)
   }
   else
   {
-      printf("CRC16 Ok, the result is 0x%02x \n", calculatedCrc);
+      printf("CRC16 OK, the result is 0x%02x \n", calculatedCrc);
   }
 }
 
@@ -44,7 +44,7 @@ void TestCRC32(uint32_t calculatedCrc, uint32_t expectedCrc)
   }
   else
   {
-      printf("CRC32 Ok, the result is 0x%02x \n", calculatedCrc);
+      printf("CRC32 OK, the result is 0x%02x \n", calculatedCrc);
   }
 }
 
@@ -149,7 +149,7 @@ void CRC_test(void)
   TestCRC8(Autosar_Crc_CalculateCRC8H2F(message6, sizeof(message6)), 0x33);
   TestCRC8(Autosar_Crc_CalculateCRC8H2F(message7, sizeof(message7)), 0x6C);
 
-  uint8_t data[] = { 0x00, 0x10 };
+  uint8_t data[] = { 0x00, 0x14 };
 
   TestCRC8(Autosar_Crc_CalculateCRC8H2F(data, sizeof(data)), 0xE9);
 

@@ -6,9 +6,7 @@
 
 int main()
 {
-  while(1)
-    {
-      CRC_test();
-    }
+    CRC_test();
+
     return 0;
 }
